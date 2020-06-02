@@ -24,7 +24,7 @@ Another approach is described on the [AWS Security Blog](https://aws.amazon.com/
 
 This bookmarklet is only going to be useful if you have a one or more AWS accounts with one or more roles each, accessible via a SAML SSO provider.  If you see a screen like the one below when you login to the AWS web console, the bookmarklet might be useful to you.
 
-![AWS Login](aws_ss_login.png)
+![AWS Login](aws_sso_login.png)
 
 ### Steps
 
