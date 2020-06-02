@@ -2,7 +2,31 @@
 
 A [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that provides a way to retrieve AWS temporary credentials after authenticating to the AWS web console using a SAML SSO provider.  The bookmarklet invokes the AWS STS API to \"exchange\" an XML SAML Response for a set of temporary credentials in a form that can easily be used with command-line tools such the `aws` cli.
 
+## Why would I want this?
+
+You might want this if you don't use AWS IAM users, but have an AWS SAML SSO set up that provides for convenient and secure, role-based interactive access to the AWS web console, but you also want to be able to use command line tools to interact with your AWS accounts.  Without this bookmarklet (or a similar tool) you won't be able to get credentials to provide to command tools.    
+
+## Other Options
+
+### saml2aws
+
+Another tool we are aware of that serves a similar purpose to this bookmarklet is [saml2aws](https://github.com/Versent/saml2aws).  
+
+The difference between the bookmarklet and `saml2aws` is that `saml2aws` is command-line only and requires specific knowledge of your SSO/Identity Provider.  In our case, we have an extensible set of identity providers, and saml2aws doesn't necessarily "know" about them and it isn't feasible to develop and maintain integrations as these evolve over time. `saml2aws` does support authentication within KeyCloak (our SSO solution) when KeyCloak's internal identity store is user, but we delegate to external identity stores, and this is not supported.    The bookmarklet only needs to "know" about the structure of the AWS login page, and the AWS STS API, both of which should be fairly stable over time.
+
+### hand-rolled 
+
+Another approach is described on the [AWS Security Blog](https://aws.amazon.com/blogs/security/how-to-implement-a-general-solution-for-federated-apicli-access-using-saml-2-0/) that involves implementing "screen-scraping" logic in python based on your SSO's login flow and login form layout.  `saml2aws` is in part based on this approach, although `saml2aws` is an ongoing active open source project vs. a single blog post.      
+
 ##  How to Use
+
+### Prerequisites/Assumptions
+
+This bookmarklet is only going to be useful if you have a one or more AWS accounts with one or more roles each, accessible via a SAML SSO provider.  If you see a screen like the one below when you login to the AWS web console, the bookmarklet might be useful to you.
+
+![AWS Login](aws_ss_login.png)
+
+### Steps
 
 * Visit [this](bookmarklet.html) page
 * Follow instructions to add bookmarklet to a handy place in your bookmarks
@@ -14,7 +38,7 @@ A [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that provides a way t
 
 ## Getting Help or Reporting an Issue
 
-TBC
+If you have questions about this tool, a suggestion, or find a bug, please [Create an Issue](https://github.com/BCDevOps/aws-saml2sts-bookmarklet/issues/new).
 
 
 ## License
@@ -41,6 +65,7 @@ At dev/build time, plain Javascript is mashed (wrapped, minified, escaped, etc.)
 
 ## Project Status
 - [x] Development
+- [x] Beta
 - [ ] Production/Maintenance
 
 ## Documentation
@@ -54,4 +79,7 @@ The bookmarklet is positioned as a more secure alternative to browser extensions
 
 ## How to Contribute
  
-TBC
+If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
+By participating in this project you agree to abide by its terms.
