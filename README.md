@@ -2,9 +2,15 @@
 
 A [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that provides a way to retrieve AWS temporary credentials after authenticating to the AWS web console using a SAML SSO provider.  The bookmarklet invokes the AWS STS API to \"exchange\" an XML SAML Response for a set of temporary credentials in a form that can easily be used with command-line tools such the `aws` cli.
 
-#  How to Use
+##  How to Use
 
-TBC
+* Visit [this](bookmarklet.html) page
+* Follow instructions to add bookmarklet to a handy place in your bookmarks
+* Once you've authenticated to AWS using a SAML SSO provider, and see a list of accounts + roles, invoke the bookmarklet
+* A dialog will appear and after a few seconds it will display a text snippet that can be copied to your clipboard using a button within dialog.
+* Open your favourite terminal application and paste the content of your clipboard into it
+* Run `aws` cli or other command line, and the credentials you pasted in will be used to determine your role and associated, policy, within AWS etc.
+* :muscle:  
 
 ## Getting Help or Reporting an Issue
 
