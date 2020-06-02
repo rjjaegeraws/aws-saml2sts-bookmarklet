@@ -24,15 +24,26 @@ Another approach is described on the [AWS Security Blog](https://aws.amazon.com/
 
 This bookmarklet is only going to be useful if you have a one or more AWS accounts with one or more roles each, accessible via a SAML SSO provider.  If you see a screen like the one below when you login to the AWS web console, the bookmarklet might be useful to you.
 
-![AWS Login](aws_sso_login.png)
+![AWS Login](images/aws_sso_login.png)
 
 ### Steps
 
 * Visit [this](bookmarklet.html) page
 * Follow instructions to add bookmarklet to a handy place in your bookmarks
-* Once you've authenticated to AWS using a SAML SSO provider, and see a list of accounts + roles, invoke the bookmarklet
-* A dialog will appear and after a few seconds it will display a text snippet that can be copied to your clipboard using a button within dialog.
-* Open your favourite terminal application and paste the content of your clipboard into it
+* Once you've authenticated to AWS using a SAML SSO provider, and see a list of accounts + roles (like the screenshot below), invoke the bookmarklet
+
+![Initial accounts and roles listing](images/initial_account_and_roles.png)
+
+* After invoking the bookmarklet, you'll see a button appear next to each role, like the screenshot below).
+
+![Temporary credentials button](images/show_temp_creds_button.png)
+ 
+* Click the button corresponding to the account and role combination you'd like to assume for your console session. A dialog will appear and after a few seconds it will display a text snippet that can be copied to your clipboard using a button within the dialog, as shown in the screenshot below.
+
+![Temporary credentials dialog](images/show_temp_creds_dialog.png)
+
+* Click the button labeled `Click to copy`.  This will copy the credentials to your clipboard.
+* Open your favourite terminal application and paste the content of your clipboard into it.
 * Run `aws` cli or other command line, and the credentials you pasted in will be used to determine your role and associated, policy, within AWS etc. 
 * Now, :muscle: !
 
