@@ -9,8 +9,7 @@ A [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) that provides a way t
 * Once you've authenticated to AWS using a SAML SSO provider, and see a list of accounts + roles, invoke the bookmarklet
 * A dialog will appear and after a few seconds it will display a text snippet that can be copied to your clipboard using a button within dialog.
 * Open your favourite terminal application and paste the content of your clipboard into it
-* Run `aws` cli or other command line, and the credentials you pasted in will be used to determine your role and associated, policy, within AWS etc.
-* :muscle:  
+* Run `aws` cli or other command line, and the credentials you pasted in will be used to determine your role and associated, policy, within AWS etc. :muscle:
 
 ## Getting Help or Reporting an Issue
 
