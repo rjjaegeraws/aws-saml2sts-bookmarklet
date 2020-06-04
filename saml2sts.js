@@ -9,12 +9,30 @@
 
 let $myjq = jQuery.noConflict();
 
+let showMacLinuxEnv = true;
+let showPowershellEnv = true;
+let showCMDEnv = true;
+
 $myjq(document).ready(function () {
 
 	$myjq('fieldset').before('<div id="dialog" title="AWS Credentials"> \
                 <p>Copy and paste the following commands into your shell to set up your AWS CLI environment variables.</p> \
-                <pre style="white-space: pre-wrap;word-wrap: break-word;padding: 1rem;">Loading...</pre> \
-                <button id="copyBtn" type="button" class="click-to-copy">Click to copy</button> \
+				<pre id="msg"></pre>\
+				<div id="copyMacLinux" style="display:none;">\
+				  <h3>Linux or macOS</h3>\
+				  <pre style="white-space: pre-wrap;word-wrap: break-word;padding: 1rem;">Loading...</pre>\
+				  <button type="button" class="click-to-copy">Click to copy</button> \
+				</div>\
+				<div id="copyPowershell" style="display:none;">\
+				  <h3>Powershell</h3>\
+				  <pre style="white-space: pre-wrap;word-wrap: break-word;padding: 1rem;">Loading...</pre>\
+				  <button type="button" class="click-to-copy">Click to copy</button> \
+				</div>\
+				<div id="copyCMDEnv" style="display:none;">\
+				  <h3>Windows Command Prompt</h3>\
+				  <pre style="white-space: pre-wrap;word-wrap: break-word;padding: 1rem;">Loading...</pre>\
+				  <button type="button" class="click-to-copy">Click to copy</button> \
+				</div>\
                 </div>');
 	$myjq('#dialog').dialog({autoOpen: false, width: '600px'});
 
@@ -28,7 +46,7 @@ $myjq(document).ready(function () {
 
 		$myjq("#dialog").dialog("open");
 
-		$myjq('#dialog pre').first().html('Loading...');
+		$myjq('#dialog pre').html('Loading...');
 
 		let roleARN = $myjq('input', $(this).parent()).first().val();
 
@@ -49,29 +67,47 @@ $myjq(document).ready(function () {
 		sts.assumeRoleWithSAML(params, function (err, data) {
 			if (err) {
 				console.log(err, err.stack);
-				$myjq('#dialog pre').first().html('Error: ' + err.message);
+				$myjq('#dialog pre').html('Error: ' + err.message);
 			} else {
+
+				$myjq('#dialog #msg').html('');
 
 				let accessKeyId = data.Credentials.AccessKeyId;
 				let secretKey = data.Credentials.SecretAccessKey;
 				let sessionToken = data.Credentials.SessionToken;
 
-				let text = '\
-export AWS_ACCESS_KEY_ID="' + accessKeyId + '" \n\
-export AWS_SECRET_ACCESS_KEY="' + secretKey + '" \n\
-export AWS_SESSION_TOKEN="' + sessionToken + '" \n\
-export AWS_DEFAULT_REGION=ca-central-1 \n';
+				let cmdVersions = [];
+				if (showMacLinuxEnv == true) {
+					cmdVersions.push({cmd: "export ", jqId: "#copyMacLinux" });
+				}
+				if (showPowershellEnv == true) {
+					cmdVersions.push({cmd: "$Env:", jqId: "#copyPowershell" });
+				}
+				if (showCMDEnv == true) {
+					cmdVersions.push({cmd: "set ", jqId: "#copyCMDEnv" });
+				}
 
-				$myjq('#dialog pre').first().html(text);
 
-				$myjq('#dialog').on('click', '#copyBtn', function () {
-					let text = $('#dialog pre').text();
-					let $tempInput = $("<textarea>");
-					$myjq("body").append($tempInput);
-					$tempInput.val(text).select();
-					document.execCommand("copy");
-					$tempInput.remove();
-				});
+				cmdVersions.forEach(function(cmdVersion) {
+					let text = '\
+'+ cmdVersion.cmd + 'AWS_ACCESS_KEY_ID="' + accessKeyId + '" \n\
+'+ cmdVersion.cmd + 'AWS_SECRET_ACCESS_KEY="' + secretKey + '" \n\
+'+ cmdVersion.cmd + 'AWS_SESSION_TOKEN="' + sessionToken + '" \n\
+'+ cmdVersion.cmd + 'AWS_DEFAULT_REGION=ca-central-1 \n';
+
+					$myjq(cmdVersion.jqId).show();
+
+					$myjq('#dialog ' + cmdVersion.jqId + ' pre').first().html(text);
+
+					$myjq('#dialog').on('click', cmdVersion.jqId + ' button', function () {
+						let text = $('pre', $(this).parent()).text();
+						let $tempInput = $("<textarea>");
+						$myjq("body").append($tempInput);
+						$tempInput.val(text).select();
+						document.execCommand("copy");
+						$tempInput.remove();
+					});
+			    });
 			}
 		});
 	})
