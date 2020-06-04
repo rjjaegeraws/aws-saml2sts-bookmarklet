@@ -83,6 +83,15 @@ At dev/build time, plain Javascript is mashed (wrapped, minified, escaped, etc.)
 
 You're looking at it :)
 
+The temporary credentials dialog can be configured to display three different environment variable formats: Linux of maxOS, Windows Command Prompt, and PowerShell. These can be shown or hidden by changing the following variables in the script:
+
+```
+let showMacLinuxEnv = true;
+let showPowershellEnv = true;
+let showCMDEnv = true;
+```
+Details on the formating can be found in the [Environment variables to configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) documenation.
+
 ## Security
 
 The bookmarklet is positioned as a more secure alternative to browser extensions to manage "userscripts" (such as TamperMonkey).  The code executes entirely within the user's browser, invoking the AWS API over a secure HTTPS connection when retrieving temporary credentials.  The code executes only when explicitly invoked by the user (in contrast with browser extensions which commonly require permissions that technically allows them to read all of the content displayed in a user's web browser.
