@@ -2,10 +2,10 @@
 	"name": "aws-saml2sts-bookmarklet",
 	"version": "1.0.0",
 	"description": "A bookmarklet that provides a way to retrieve AWS temporary credentials after authenticating to the AWS web console using a SAML SSO provider.  The bookmarklet invokes the AWS STS API to \"exchange\" an XML SAML Response for a set of temporary credentials in a form that can easily be used with command-line tools such the aws cli. ",
-	"main": "saml2sts.js",
+	"main": "AWSCopySAMLBookmarklet.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "bookmarklet -d saml2sts.js > bookmarklet.html"
+		"build": "bookmarklet -d AWSCopySAMLBookmarklet.js > bookmarklet.html"
 	},
 	"repository": {
 		"type": "git",
